@@ -11,7 +11,9 @@ const login = async (userInfo) => {
 
 const register = async (userInfo) => {
   try {
-    const { data } = await instance.post("/auth/register", userInfo);
+    const formData = new FormData();
+    for (const key in userInfo) formData.append(key, userInfo[key]);
+    const { data } = await instance.post("/auth/register", formData);
     return data;
   } catch (error) {
     console.log(error);
@@ -36,4 +38,22 @@ const getAllUsers = async () => {
   }
 };
 
-export { login, register, me, getAllUsers };
+const storeToken = (token) => {
+  localStorage.setItem("token", token);
+};
+
+const checkToken = () => {
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    const decode = jwt_decode()
+    if()
+  }
+  return false;
+};
+
+const logout = () => {
+  localStorage.removeItem("token");
+};
+
+export { login, register, me, getAllUsers, storeToken, checkToken, logout };
